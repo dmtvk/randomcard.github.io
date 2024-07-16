@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Random Card Picker</title>
+</head>
+<body>
+    <h1>Выбор случайной карты</h1>
+    <input type="file" id="cardInput" multiple accept="image/*">
+    <button onclick="pickRandomCard()">Выбрать случайную карту</button>
+    <br>
+    <img id="randomCard" style="margin-top: 20px; max-width: 100%;">
+
+    <script>
+        let cardImages = [];
+
+        document.getElementById('cardInput').addEventListener('change', function(event) {
+            cardImages = [];
+            for (let file of event.target.files) {
+                let reader = new FileReader();
+                reader.onload = function(e) {
+                    cardImages.push(e.target.result);
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+
+        function pickRandomCard() {
+            if (cardImages.length === 0) {
+                alert('Пожалуйста, загрузите изображения карт.');
+                return;
+            }
+            let randomIndex = Math.floor(Math.random() * cardImages.length);
+            document.getElementById('randomCard').src = cardImages[randomIndex];
+        }
+    </script>
+</body>
+</html>
